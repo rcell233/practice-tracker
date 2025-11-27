@@ -34,12 +34,15 @@ export const Layout: React.FC<LayoutProps> = ({ currentView, onChangeView, child
                 <button
                     key={item.id}
                     onClick={() => onChangeView(item.id)}
+                    onMouseDown={(e) => e.preventDefault()}
                     className={clsx(
-                        "w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all font-medium text-sm",
+                        "w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-sm",
+                        "outline-none border select-none transition-all active:scale-[0.98]",
                         currentView === item.id 
-                            ? "bg-violet-600/10 text-violet-400 border border-violet-500/20" 
-                            : "text-zinc-400 hover:text-zinc-100 hover:bg-zinc-900"
+                            ? "bg-violet-600/10 text-violet-400 border-violet-500/20" 
+                            : "text-zinc-400 hover:text-zinc-100 hover:bg-zinc-900 border-transparent"
                     )}
+                    style={{ WebkitTapHighlightColor: 'transparent' }}
                 >
                     <item.icon size={20} />
                     {item.label}
@@ -81,10 +84,13 @@ export const Layout: React.FC<LayoutProps> = ({ currentView, onChangeView, child
                 <button
                     key={item.id}
                     onClick={() => onChangeView(item.id)}
+                    onMouseDown={(e) => e.preventDefault()}
                     className={clsx(
                         "flex flex-col items-center gap-1 p-2 rounded-lg transition-all",
+                        "outline-none select-none",
                         currentView === item.id ? "text-violet-400" : "text-zinc-500"
                     )}
+                    style={{ WebkitTapHighlightColor: 'transparent' }}
                 >
                     <motion.div
                         whileTap={{ scale: 0.9 }}
