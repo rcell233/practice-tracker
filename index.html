@@ -42,6 +42,19 @@
       ::-webkit-scrollbar-thumb:hover {
         background: #3f3f46; 
       }
+      /* 强制输入框背景色，覆盖浏览器默认和自动填充 */
+      input {
+        background-color: rgba(24, 24, 27, 0.8) !important;
+        color: #f4f4f5 !important;
+      }
+      input:-webkit-autofill,
+      input:-webkit-autofill:hover,
+      input:-webkit-autofill:focus,
+      input:-webkit-autofill:active {
+        -webkit-box-shadow: 0 0 0 30px rgba(24, 24, 27, 0.8) inset !important;
+        -webkit-text-fill-color: #f4f4f5 !important;
+        box-shadow: 0 0 0 30px rgba(24, 24, 27, 0.8) inset !important;
+      }
     </style>
   <script type="importmap">
 {
