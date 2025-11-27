@@ -1,0 +1,58 @@
+name: Deploy to GitHub Pages
+
+on:
+  # 触发条件：推送到 main 分支时触发
+  push:
+    branches: ["main"]
+
+  # 允许在 Actions 标签页手动触发
+  workflow_dispatch:
+
+# 设置权限，允许 GITHUB_TOKEN 部署 Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 允许并发部署，避免多次推送导致冲突
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  # 构建任务
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          
+      - name: Install dependencies
+        # 如果你提交了 package-lock.json，这里用 npm ci 会更快更稳
+        # 如果没有，npm install 也能工作
+        run: npm install
+
+      - name: Build project
+        run: npm run build
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
+
+  # 部署任务
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
